@@ -1,0 +1,328 @@
+name: Code Quality & Security
+
+on:
+  push:
+    branches: [ develop, main, ios-develop, ios-main ]
+  pull_request:
+    branches: [ develop, main, ios-develop, ios-main ]
+  schedule:
+    # Run security scans daily at 2 AM UTC
+    - cron: '0 2 * * *'
+
+jobs:
+  # Backend Code Quality
+  backend-quality:
+    name: Backend Code Quality
+    runs-on: ubuntu-latest
+    if: contains(github.event.head_commit.modified, 'src/') || contains(github.event.head_commit.added, 'src/') || github.event_name == 'pull_request'
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Set up JDK 17
+      uses: actions/setup-java@v4
+      with:
+        java-version: '17'
+        distribution: 'temurin'
+
+    - name: Cache Gradle packages
+      uses: actions/cache@v4
+      with:
+        path: |
+          ~/.gradle/caches
+          ~/.gradle/wrapper
+        key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}
+
+    - name: Run Checkstyle
+      run: ./gradlew checkstyleMain checkstyleTest
+
+    - name: Run SpotBugs
+      run: ./gradlew spotbugsMain
+
+    - name: Run PMD
+      run: ./gradlew pmdMain
+
+    - name: Generate code coverage
+      run: ./gradlew jacocoTestReport
+
+    - name: Upload coverage to Codecov
+      uses: codecov/codecov-action@v4
+      with:
+        file: ./build/reports/jacoco/test/jacocoTestReport.xml
+        flags: backend
+        name: backend-coverage
+
+    - name: SonarCloud Scan
+      if: github.event_name != 'schedule'
+      uses: SonarSource/sonarcloud-github-action@master
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+
+  # Frontend Code Quality
+  frontend-quality:
+    name: Frontend Code Quality
+    runs-on: ubuntu-latest
+    if: contains(github.event.head_commit.modified, 'bhfrontend/') || contains(github.event.head_commit.added, 'bhfrontend/') || github.event_name == 'pull_request'
+    defaults:
+      run:
+        working-directory: ./bhfrontend
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Set up Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: '18'
+        cache: 'npm'
+        cache-dependency-path: bhfrontend/package-lock.json
+
+    - name: Install dependencies
+      run: npm ci
+
+    - name: Run ESLint
+      run: npm run lint -- --format=json --output-file=eslint-report.json
+      continue-on-error: true
+
+    - name: Run Prettier check
+      run: npm run format:check
+
+    - name: Run TypeScript check
+      run: npx tsc --noEmit
+
+    - name: Run tests with coverage
+      run: npm test -- --coverage --watchAll=false --coverageReporters=lcov
+
+    - name: Upload coverage to Codecov
+      uses: codecov/codecov-action@v4
+      with:
+        file: ./bhfrontend/coverage/lcov.info
+        flags: frontend
+        name: frontend-coverage
+
+    - name: Audit npm packages
+      run: npm audit --audit-level=high
+
+    - name: Check bundle size
+      run: |
+        npm run build
+        npx bundlesize
+
+  # iOS Code Quality
+  ios-quality:
+    name: iOS Code Quality
+    runs-on: macos-14
+    if: contains(github.event.head_commit.modified, 'LunaraApp/') || contains(github.event.head_commit.added, 'LunaraApp/') || github.event_name == 'pull_request'
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Select Xcode version
+      run: sudo xcode-select -s /Applications/Xcode_15.2.app/Contents/Developer
+
+    - name: Install SwiftLint
+      run: |
+        brew install swiftlint
+
+    - name: Run SwiftLint
+      working-directory: LunaraApp
+      run: |
+        swiftlint lint --reporter github-actions-logging
+        swiftlint lint --reporter json > swiftlint-report.json
+      continue-on-error: true
+
+    - name: Upload SwiftLint results
+      uses: actions/upload-artifact@v4
+      with:
+        name: swiftlint-report
+        path: LunaraApp/swiftlint-report.json
+
+    - name: Run Swift Package Manager audit
+      working-directory: LunaraApp
+      run: |
+        swift package show-dependencies --format json > dependencies.json
+        # Check for known vulnerabilities (would need custom script)
+
+  # Security Scanning
+  security-scan:
+    name: Security Scan
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Run Trivy vulnerability scanner
+      uses: aquasecurity/trivy-action@master
+      with:
+        scan-type: 'fs'
+        scan-ref: '.'
+        format: 'sarif'
+        output: 'trivy-results.sarif'
+
+    - name: Upload Trivy scan results to GitHub Security tab
+      uses: github/codeql-action/upload-sarif@v3
+      if: always()
+      with:
+        sarif_file: 'trivy-results.sarif'
+
+    - name: Run Semgrep security scan
+      uses: returntocorp/semgrep-action@v1
+      with:
+        config: >-
+          p/security-audit
+          p/secrets
+          p/owasp-top-ten
+        generateSarif: "1"
+
+    - name: Upload Semgrep scan results
+      uses: github/codeql-action/upload-sarif@v3
+      if: always()
+      with:
+        sarif_file: semgrep.sarif
+
+    - name: Dependency vulnerability scan
+      run: |
+        # Backend dependencies
+        ./gradlew dependencyCheckAnalyze || true
+        
+        # Frontend dependencies
+        cd bhfrontend
+        npm audit --audit-level=moderate --json > npm-audit.json || true
+        cd ..
+
+    - name: Upload dependency scan results
+      uses: actions/upload-artifact@v4
+      if: always()
+      with:
+        name: dependency-scan-results
+        path: |
+          build/reports/dependency-check-report.html
+          bhfrontend/npm-audit.json
+
+  # License Compliance
+  license-check:
+    name: License Compliance
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Set up JDK 17
+      uses: actions/setup-java@v4
+      with:
+        java-version: '17'
+        distribution: 'temurin'
+
+    - name: Set up Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: '18'
+        cache: 'npm'
+        cache-dependency-path: bhfrontend/package-lock.json
+
+    - name: Check backend licenses
+      run: |
+        ./gradlew generateLicenseReport
+        
+    - name: Check frontend licenses
+      working-directory: bhfrontend
+      run: |
+        npm ci
+        npx license-checker --json > licenses.json
+        npx license-checker --summary
+
+    - name: Upload license reports
+      uses: actions/upload-artifact@v4
+      with:
+        name: license-reports
+        path: |
+          build/reports/dependency-license/
+          bhfrontend/licenses.json
+
+  # Performance Testing
+  performance-test:
+    name: Performance Testing
+    runs-on: ubuntu-latest
+    if: github.event_name == 'pull_request' && contains(github.event.pull_request.labels.*.name, 'performance')
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Set up Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: '18'
+
+    - name: Install Lighthouse CI
+      run: npm install -g @lhci/cli@0.12.x
+
+    - name: Build frontend
+      working-directory: bhfrontend
+      run: |
+        npm ci
+        npm run build
+
+    - name: Run Lighthouse CI
+      working-directory: bhfrontend
+      run: lhci autorun
+      env:
+        LHCI_GITHUB_APP_TOKEN: ${{ secrets.LHCI_GITHUB_APP_TOKEN }}
+
+  # Code Quality Summary
+  quality-gate:
+    name: Quality Gate
+    runs-on: ubuntu-latest
+    needs: [backend-quality, frontend-quality, security-scan]
+    if: always()
+    
+    steps:
+    - name: Check quality gate
+      run: |
+        if [[ "${{ needs.backend-quality.result }}" == "failure" || 
+              "${{ needs.frontend-quality.result }}" == "failure" || 
+              "${{ needs.security-scan.result }}" == "failure" ]]; then
+          echo "Quality gate failed!"
+          exit 1
+        else
+          echo "Quality gate passed!"
+        fi
+
+    - name: Comment PR with quality results
+      if: github.event_name == 'pull_request'
+      uses: actions/github-script@v7
+      with:
+        script: |
+          const results = {
+            backend: '${{ needs.backend-quality.result }}',
+            frontend: '${{ needs.frontend-quality.result }}',
+            security: '${{ needs.security-scan.result }}'
+          };
+          
+          const statusEmoji = (status) => status === 'success' ? '✅' : status === 'failure' ? '❌' : '⚠️';
+          
+          const comment = `## 🔍 Code Quality Report
+          
+          | Component | Status | Result |
+          |-----------|--------|---------|
+          | Backend | ${statusEmoji(results.backend)} | ${results.backend} |
+          | Frontend | ${statusEmoji(results.frontend)} | ${results.frontend} |
+          | Security | ${statusEmoji(results.security)} | ${results.security} |
+          
+          ${Object.values(results).every(r => r === 'success') ? 
+            '🎉 All quality checks passed!' : 
+            '⚠️ Some quality checks failed. Please review the details above.'}
+          `;
+          
+          github.rest.issues.createComment({
+            issue_number: context.issue.number,
+            owner: context.repo.owner,
+            repo: context.repo.repo,
+            body: comment
+          });
