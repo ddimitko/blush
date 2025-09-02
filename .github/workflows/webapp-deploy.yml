@@ -77,8 +77,11 @@ jobs:
         CI: false
         GENERATE_SOURCEMAP: false
         REACT_APP_API_URL: ${{ vars.API_URL }}
+        REACT_APP_WS_URL: ${{ vars.WS_BASE_URL }}
         REACT_APP_STRIPE_PUBLISHABLE_KEY: ${{ vars.STRIPE_PUBLISHABLE_KEY }}
         REACT_APP_GOOGLE_MAPS_API_KEY: ${{ vars.GOOGLE_MAPS_API_KEY }}
+        REACT_APP_FACEBOOK_APP_ID: ${{ vars.FACEBOOK_APP_ID }}
+        REACT_APP_GOOGLE_CLIENT_ID: ${{ vars.GOOGLE_CLIENT_ID }}
 
     - name: Build and push Docker image
       uses: docker/build-push-action@v5
@@ -112,39 +115,64 @@ jobs:
           SPRING_DATASOURCE_URL=${{ secrets.DATABASE_URL }}
           SPRING_DATASOURCE_USERNAME=${{ secrets.DATABASE_USERNAME }}
           SPRING_DATASOURCE_PASSWORD=${{ secrets.DATABASE_PASSWORD }}
-          
+
           # Redis Configuration
           SPRING_REDIS_HOST=${{ secrets.REDIS_HOST }}
           SPRING_REDIS_PORT=${{ secrets.REDIS_PORT || 6379 }}
           SPRING_REDIS_PASSWORD=${{ secrets.REDIS_PASSWORD }}
-          
+
           # Stripe Configuration
           STRIPE_SECRET_KEY=${{ secrets.STRIPE_SECRET_KEY }}
           STRIPE_WEBHOOK_SECRET=${{ secrets.STRIPE_WEBHOOK_SECRET }}
-          
+
           # JWT Configuration
           JWT_SECRET=${{ secrets.JWT_SECRET }}
           JWT_EXPIRATION=${{ vars.JWT_EXPIRATION || 86400000 }}
-          
+
           # Email Configuration
           SPRING_MAIL_HOST=${{ secrets.MAIL_HOST }}
           SPRING_MAIL_PORT=${{ secrets.MAIL_PORT || 587 }}
           SPRING_MAIL_USERNAME=${{ secrets.MAIL_USERNAME }}
           SPRING_MAIL_PASSWORD=${{ secrets.MAIL_PASSWORD }}
-          
+
+          # OAuth2 Configuration
+          FACEBOOK_CLIENT_ID=${{ secrets.FACEBOOK_CLIENT_ID }}
+          FACEBOOK_CLIENT_SECRET=${{ secrets.FACEBOOK_CLIENT_SECRET }}
+          GOOGLE_CLIENT_ID=${{ secrets.GOOGLE_CLIENT_ID }}
+          GOOGLE_CLIENT_SECRET=${{ secrets.GOOGLE_CLIENT_SECRET }}
+
           # RabbitMQ Configuration
           SPRING_RABBITMQ_HOST=${{ secrets.RABBITMQ_HOST }}
           SPRING_RABBITMQ_PORT=${{ secrets.RABBITMQ_PORT || 5672 }}
           SPRING_RABBITMQ_USERNAME=${{ secrets.RABBITMQ_USERNAME }}
           SPRING_RABBITMQ_PASSWORD=${{ secrets.RABBITMQ_PASSWORD }}
-          
+
+          # SSL Configuration
+          SERVER_SSL_ENABLED=${{ vars.SERVER_SSL_ENABLED || true }}
+          SERVER_SSL_KEY_STORE=${{ vars.SERVER_SSL_KEY_STORE || 'classpath:production.p12' }}
+          SERVER_SSL_KEY_STORE_PASSWORD=${{ secrets.SERVER_SSL_KEY_STORE_PASSWORD }}
+          SERVER_SSL_KEY_STORE_TYPE=${{ vars.SERVER_SSL_KEY_STORE_TYPE || 'PKCS12' }}
+          SERVER_SSL_KEY_ALIAS=${{ vars.SERVER_SSL_KEY_ALIAS || 'lunara-api' }}
+
           # Application Configuration
-          SERVER_PORT=${{ vars.SERVER_PORT || 8080 }}
+          SERVER_PORT=${{ vars.SERVER_PORT || 8443 }}
           SPRING_PROFILES_ACTIVE=production
           LOGGING_LEVEL_ROOT=${{ vars.LOG_LEVEL || 'INFO' }}
-          
-          # Security
+          APP_BASE_URL=${{ vars.APP_URL }}
+          FRONTEND_URL=${{ vars.FRONTEND_URL }}
+
+          # Security & CORS
           CORS_ALLOWED_ORIGINS=${{ vars.CORS_ALLOWED_ORIGINS }}
+          WEBSOCKET_ALLOWED_ORIGINS=${{ vars.CORS_ALLOWED_ORIGINS }}
+
+          # Performance Configuration
+          RATE_LIMIT_BOOKING_ENDPOINTS=${{ vars.RATE_LIMIT_BOOKING_ENDPOINTS || 10 }}
+          RATE_LIMIT_SEARCH_ENDPOINTS=${{ vars.RATE_LIMIT_SEARCH_ENDPOINTS || 30 }}
+          RATE_LIMIT_PAYMENT_ENDPOINTS=${{ vars.RATE_LIMIT_PAYMENT_ENDPOINTS || 5 }}
+          BOOKING_SLOT_LOCK_DURATION=${{ vars.BOOKING_SLOT_LOCK_DURATION || 600000 }}
+          BOOKING_MAX_CONCURRENT_LOCKS=${{ vars.BOOKING_MAX_CONCURRENT_LOCKS || 100 }}
+          SEARCH_MAX_RESULTS=${{ vars.SEARCH_MAX_RESULTS || 50 }}
+          SEARCH_CACHE_TTL=${{ vars.SEARCH_CACHE_TTL || 600000 }}
           EOF
           
           # Deploy with docker-compose

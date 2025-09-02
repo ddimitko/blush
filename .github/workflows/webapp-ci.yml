@@ -85,6 +85,9 @@ jobs:
         SPRING_DATASOURCE_PASSWORD: test
         SPRING_REDIS_HOST: localhost
         SPRING_REDIS_PORT: 6379
+        JWT_SECRET: test-jwt-secret-for-ci-testing-only
+        STRIPE_SECRET_KEY: sk_test_fake_key_for_testing
+        STRIPE_WEBHOOK_SECRET: whsec_test_fake_webhook_secret
 
     - name: Generate test report
       uses: dorny/test-reporter@v1
@@ -144,6 +147,12 @@ jobs:
       env:
         CI: false
         GENERATE_SOURCEMAP: false
+        REACT_APP_API_URL: https://localhost:8443/api
+        REACT_APP_WS_URL: wss://localhost:8443
+        REACT_APP_STRIPE_PUBLISHABLE_KEY: pk_test_fake_key_for_testing
+        REACT_APP_FACEBOOK_APP_ID: 123456789
+        REACT_APP_GOOGLE_CLIENT_ID: fake-google-client-id
+        REACT_APP_GOOGLE_MAPS_API_KEY: fake-maps-api-key
 
     - name: Upload build artifacts
       uses: actions/upload-artifact@v4
