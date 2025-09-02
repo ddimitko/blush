@@ -1,0 +1,165 @@
+groups:
+  - name: lunara_application_alerts
+    rules:
+      # Application Health Alerts
+      - alert: LunaraApplicationDown
+        expr: up{job="lunara-backend"} == 0
+        for: 1m
+        labels:
+          severity: critical
+          service: lunara-backend
+        annotations:
+          summary: "Lunara application is down"
+          description: "Lunara backend application has been down for more than 1 minute"
+
+      - alert: LunaraHighErrorRate
+        expr: rate(http_server_requests_total{status=~"5.."}[5m]) > 0.1
+        for: 2m
+        labels:
+          severity: warning
+          service: lunara-backend
+        annotations:
+          summary: "High error rate detected"
+          description: "Error rate is {{ $value }} errors per second"
+
+      - alert: LunaraHighResponseTime
+        expr: histogram_quantile(0.95, rate(http_server_requests_duration_seconds_bucket[5m])) > 2
+        for: 5m
+        labels:
+          severity: warning
+          service: lunara-backend
+        annotations:
+          summary: "High response time detected"
+          description: "95th percentile response time is {{ $value }} seconds"
+
+  - name: lunara_business_alerts
+    rules:
+      # Business Metrics Alerts
+      - alert: LunaraHighBookingFailureRate
+        expr: rate(lunara_bookings_failed_total[5m]) / rate(lunara_booking_attempts_total[5m]) > 0.2
+        for: 3m
+        labels:
+          severity: warning
+          service: lunara-backend
+        annotations:
+          summary: "High booking failure rate"
+          description: "Booking failure rate is {{ $value | humanizePercentage }}"
+
+      - alert: LunaraNoBookingsToday
+        expr: lunara_appointments_today_total == 0 and hour() > 10
+        for: 30m
+        labels:
+          severity: warning
+          service: lunara-backend
+        annotations:
+          summary: "No bookings today"
+          description: "No appointments have been booked today after 10 AM"
+
+      - alert: LunaraWebSocketConnectionsHigh
+        expr: lunara_websocket_connections_active > 1000
+        for: 5m
+        labels:
+          severity: warning
+          service: lunara-backend
+        annotations:
+          summary: "High number of WebSocket connections"
+          description: "{{ $value }} active WebSocket connections"
+
+  - name: lunara_infrastructure_alerts
+    rules:
+      # Infrastructure Alerts
+      - alert: LunaraHighMemoryUsage
+        expr: (lunara_jvm_memory_used_bytes / lunara_jvm_memory_max_bytes) > 0.8
+        for: 5m
+        labels:
+          severity: warning
+          service: lunara-backend
+        annotations:
+          summary: "High JVM memory usage"
+          description: "JVM memory usage is {{ $value | humanizePercentage }}"
+
+      - alert: LunaraRedisDown
+        expr: lunara_redis_connected == 0
+        for: 1m
+        labels:
+          severity: critical
+          service: redis
+        annotations:
+          summary: "Redis is down"
+          description: "Redis connection is not available"
+
+      - alert: LunaraDatabaseConnectionIssue
+        expr: lunara_database_connections_active == 0
+        for: 1m
+        labels:
+          severity: critical
+          service: database
+        annotations:
+          summary: "Database connection issue"
+          description: "No active database connections available"
+
+  - name: lunara_performance_alerts
+    rules:
+      # Performance Alerts
+      - alert: LunaraHighCPUUsage
+        expr: system_cpu_usage > 0.8
+        for: 5m
+        labels:
+          severity: warning
+          service: lunara-backend
+        annotations:
+          summary: "High CPU usage"
+          description: "CPU usage is {{ $value | humanizePercentage }}"
+
+      - alert: LunaraHighGCTime
+        expr: rate(jvm_gc_pause_seconds_sum[5m]) > 0.1
+        for: 3m
+        labels:
+          severity: warning
+          service: lunara-backend
+        annotations:
+          summary: "High garbage collection time"
+          description: "GC time is {{ $value }} seconds per second"
+
+      - alert: LunaraSlowAppointmentCreation
+        expr: histogram_quantile(0.95, rate(lunara_appointment_creation_duration_seconds_bucket[5m])) > 5
+        for: 3m
+        labels:
+          severity: warning
+          service: lunara-backend
+        annotations:
+          summary: "Slow appointment creation"
+          description: "95th percentile appointment creation time is {{ $value }} seconds"
+
+  - name: lunara_user_experience_alerts
+    rules:
+      # User Experience Alerts
+      - alert: LunaraHighUnreadNotifications
+        expr: lunara_notifications_unread_total > 10000
+        for: 10m
+        labels:
+          severity: warning
+          service: lunara-backend
+        annotations:
+          summary: "High number of unread notifications"
+          description: "{{ $value }} unread notifications in the system"
+
+      - alert: LunaraNoActiveShops
+        expr: lunara_shops_active_total == 0
+        for: 5m
+        labels:
+          severity: critical
+          service: lunara-backend
+        annotations:
+          summary: "No active shops"
+          description: "No shops are currently active in the system"
+
+      - alert: LunaraLowActiveEmployees
+        expr: lunara_employees_active_total < 5
+        for: 10m
+        labels:
+          severity: warning
+          service: lunara-backend
+        annotations:
+          summary: "Low number of active employees"
+          description: "Only {{ $value }} employees are currently active"

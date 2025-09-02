@@ -1,0 +1,102 @@
+[
+  {
+    "id": "service-1",
+    "name": "Classic Haircut",
+    "description": "Professional haircut with wash and styling",
+    "price": 50.00,
+    "duration": 60,
+    "category": "Hair",
+    "active": true,
+    "imageUrl": "/images/services/haircut.jpg"
+  },
+  {
+    "id": "service-2",
+    "name": "Hair Color & Highlights",
+    "description": "Full hair coloring service with highlights",
+    "price": 120.00,
+    "duration": 180,
+    "category": "Hair",
+    "active": true,
+    "imageUrl": "/images/services/hair-color.jpg"
+  },
+  {
+    "id": "service-3",
+    "name": "Hair Wash & Blowdry",
+    "description": "Professional hair wash and blow dry styling",
+    "price": 30.00,
+    "duration": 45,
+    "category": "Hair",
+    "active": true,
+    "imageUrl": "/images/services/blowdry.jpg"
+  },
+  {
+    "id": "service-4",
+    "name": "Manicure",
+    "description": "Classic manicure with nail polish",
+    "price": 25.00,
+    "duration": 45,
+    "category": "Nails",
+    "active": true,
+    "imageUrl": "/images/services/manicure.jpg"
+  },
+  {
+    "id": "service-5",
+    "name": "Gel Manicure",
+    "description": "Long-lasting gel manicure",
+    "price": 35.00,
+    "duration": 60,
+    "category": "Nails",
+    "active": true,
+    "imageUrl": "/images/services/gel-manicure.jpg"
+  },
+  {
+    "id": "service-6",
+    "name": "Pedicure",
+    "description": "Relaxing pedicure with foot massage",
+    "price": 40.00,
+    "duration": 75,
+    "category": "Nails",
+    "active": true,
+    "imageUrl": "/images/services/pedicure.jpg"
+  },
+  {
+    "id": "service-7",
+    "name": "Facial Treatment",
+    "description": "Deep cleansing facial with moisturizing",
+    "price": 60.00,
+    "duration": 90,
+    "category": "Skincare",
+    "active": true,
+    "imageUrl": "/images/services/facial.jpg"
+  },
+  {
+    "id": "service-8",
+    "name": "Eyebrow Shaping",
+    "description": "Professional eyebrow shaping and tinting",
+    "price": 20.00,
+    "duration": 30,
+    "category": "Beauty",
+    "active": true,
+    "imageUrl": "/images/services/eyebrows.jpg"
+  },
+  {
+    "id": "service-9",
+    "name": "Eyelash Extensions",
+    "description": "Individual eyelash extensions application",
+    "price": 80.00,
+    "duration": 120,
+    "category": "Beauty",
+    "active": true,
+    "imageUrl": "/images/services/eyelashes.jpg"
+  },
+  {
+    "id": "service-10",
+    "name": "Massage Therapy",
+    "description": "Relaxing full body massage",
+    "price": 70.00,
+    "duration": 60,
+    "category": "Wellness",
+    "active": true,
+    "imageUrl": "/images/services/massage.jpg"
+  }
+]

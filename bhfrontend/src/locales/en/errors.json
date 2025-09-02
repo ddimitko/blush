@@ -1,0 +1,171 @@
+{
+  "general": "An unexpected error occurred",
+  "network": "Network error occurred",
+  "timeout": "Request timeout",
+  "unknown": "Unknown error",
+  "tryAgain": "Please try again",
+  "auth": {
+    "invalidCredentials": "Invalid email or password",
+    "accountLocked": "Account is locked",
+    "accountDisabled": "Account is disabled",
+    "tokenExpired": "Session has expired. Please log in again",
+    "tokenInvalid": "Invalid authentication token",
+    "unauthorized": "You are not authorized to access this resource",
+    "forbidden": "Access denied",
+    "sessionExpired": "Your session has expired"
+  },
+  "user": {
+    "notFound": "User not found",
+    "emailExists": "A user with this email already exists",
+    "creationFailed": "Failed to create user account",
+    "updateFailed": "Failed to update user profile",
+    "deleteFailed": "Failed to delete user account",
+    "passwordResetFailed": "Failed to reset password",
+    "emailVerificationFailed": "Email verification failed"
+  },
+  "shop": {
+    "notFound": "Shop not found",
+    "creationFailed": "Failed to create shop",
+    "updateFailed": "Failed to update shop",
+    "deleteFailed": "Failed to delete shop",
+    "notOwner": "You are not the owner of this shop",
+    "inactive": "This shop is currently inactive",
+    "subscriptionRequired": "Active subscription required"
+  },
+  "service": {
+    "notFound": "Service not found",
+    "creationFailed": "Failed to create service",
+    "updateFailed": "Failed to update service",
+    "deleteFailed": "Failed to delete service",
+    "unavailable": "Service is currently unavailable",
+    "employeeNotAssigned": "No employee assigned to this service"
+  },
+  "employee": {
+    "notFound": "Employee not found",
+    "creationFailed": "Failed to create employee",
+    "updateFailed": "Failed to update employee",
+    "deleteFailed": "Failed to delete employee",
+    "notAvailable": "Employee is not available",
+    "invitationFailed": "Failed to send employee invitation",
+    "alreadyExists": "Employee already exists in this shop"
+  },
+  "appointment": {
+    "notFound": "Appointment not found",
+    "creationFailed": "Failed to create appointment",
+    "updateFailed": "Failed to update appointment",
+    "cancelFailed": "Failed to cancel appointment",
+    "slotUnavailable": "Selected time slot is no longer available",
+    "pastDate": "Cannot book appointments in the past",
+    "outsideHours": "Selected time is outside business hours",
+    "tooFar": "Cannot book appointments more than 6 months in advance",
+    "conflict": "Appointment conflicts with existing booking",
+    "paymentRequired": "Payment is required to confirm appointment"
+  },
+  "payment": {
+    "failed": "Payment failed",
+    "declined": "Payment was declined",
+    "invalidCard": "Invalid card information",
+    "insufficientFunds": "Insufficient funds",
+    "processing": "Payment is being processed",
+    "refundFailed": "Refund failed",
+    "stripeError": "Payment processing error",
+    "methodNotSupported": "Payment method not supported"
+  },
+  "upload": {
+    "failed": "File upload failed",
+    "tooLarge": "File is too large",
+    "invalidType": "Invalid file type",
+    "virusDetected": "File contains malicious content",
+    "storageFull": "Storage space full"
+  },
+  "validation": {
+    "failed": "Validation failed",
+    "requiredField": "Required field is missing",
+    "invalidFormat": "Invalid format",
+    "constraintViolation": "Data constraint violation"
+  },
+  "database": {
+    "connection": "Database connection error",
+    "queryFailed": "Database query failed",
+    "constraintViolation": "Database constraint violation",
+    "transactionFailed": "Transaction failed"
+  },
+  "external": {
+    "stripeConnection": "Failed to connect to Stripe",
+    "stripeWebhook": "Stripe webhook error",
+    "emailSendFailed": "Failed to send email",
+    "smsSendFailed": "Failed to send SMS",
+    "notificationFailed": "Failed to send push notification"
+  },
+  "business": {
+    "hoursClosed": "Shop is closed at this time",
+    "capacityFull": "No available capacity",
+    "minimumNotice": "Minimum notice period required",
+    "maximumAdvance": "Cannot book too far in advance",
+    "duplicateBooking": "Duplicate booking detected"
+  },
+  "subscription": {
+    "notFound": "Subscription not found",
+    "expired": "Subscription has expired",
+    "paymentFailed": "Subscription payment failed",
+    "upgradeFailed": "Failed to upgrade subscription",
+    "downgradeFailed": "Failed to downgrade subscription",
+    "cancelFailed": "Failed to cancel subscription"
+  },
+  "leave": {
+    "insufficientBalance": "Insufficient leave balance",
+    "overlap": "Leave request overlaps with existing leave",
+    "pastDate": "Cannot request leave for past dates",
+    "approvalFailed": "Failed to approve leave request",
+    "rejectionFailed": "Failed to reject leave request"
+  },
+  "notification": {
+    "sendFailed": "Failed to send notification",
+    "notFound": "Notification not found",
+    "markReadFailed": "Failed to mark notification as read"
+  },
+  "search": {
+    "failed": "Search failed",
+    "invalidQuery": "Invalid search query",
+    "invalidCriteria": "Invalid filter criteria"
+  },
+  "rateLimit": {
+    "exceeded": "Too many requests. Please try again later",
+    "dailyExceeded": "Daily request limit exceeded",
+    "hourlyExceeded": "Hourly request limit exceeded"
+  },
+  "compliance": {
+    "vatValidationFailed": "VAT number validation failed",
+    "vatServiceUnavailable": "VAT validation service unavailable",
+    "taxCalculationFailed": "Tax calculation failed",
+    "complianceCheckFailed": "Compliance check failed"
+  },
+  "location": {
+    "notFound": "Location not found",
+    "serviceUnavailable": "Location service unavailable",
+    "permissionDenied": "Location permission denied"
+  },
+  "cache": {
+    "unavailable": "Cache service unavailable",
+    "operationFailed": "Cache operation failed"
+  },
+  "websocket": {
+    "connectionFailed": "WebSocket connection failed",
+    "messageFailed": "Failed to send WebSocket message",
+    "authenticationFailed": "WebSocket authentication failed"
+  },
+  "http": {
+    "400": "Bad request",
+    "401": "Unauthorized access",
+    "403": "Access forbidden",
+    "404": "Resource not found",
+    "405": "Method not allowed",
+    "409": "Resource conflict",
+    "422": "Unprocessable entity",
+    "429": "Too many requests",
+    "500": "Internal server error",
+    "502": "Bad gateway",
+    "503": "Service unavailable",
+    "504": "Gateway timeout"
+  }
+}

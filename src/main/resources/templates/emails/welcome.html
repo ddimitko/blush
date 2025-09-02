@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Welcome to Lunara - Your Exclusive Beauty Experience</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #F5F5F5;
+            line-height: 1.7;
+            color: #333333;
+        }
+        .container {
+            max-width: 650px;
+            margin: 0 auto;
+            background-color: #FFFFFF;
+            box-shadow: 0 20px 40px rgba(191, 160, 84, 0.15);
+            border: 1px solid #BFA054;
+            border-radius: 16px;
+            overflow: hidden;
+        }
+        .header {
+            background: linear-gradient(135deg, #333333 0%, #BFA054 50%, #333333 100%);
+            color: #FFFFFF;
+            padding: 50px 40px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+        .header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="grain" width="100" height="100" patternUnits="userSpaceOnUse"><circle cx="25" cy="25" r="1" fill="%23d4af37" opacity="0.1"/><circle cx="75" cy="75" r="1" fill="%23d4af37" opacity="0.1"/><circle cx="50" cy="10" r="0.5" fill="%23d4af37" opacity="0.05"/></pattern></defs><rect width="100" height="100" fill="url(%23grain)"/></svg>') repeat;
+            opacity: 0.3;
+        }
+        .logo {
+            font-size: 42px;
+            font-weight: 300;
+            margin-bottom: 15px;
+            letter-spacing: 4px;
+            text-transform: uppercase;
+            position: relative;
+            z-index: 1;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+        }
+        .tagline {
+            font-size: 18px;
+            opacity: 0.9;
+            margin: 0;
+            font-style: italic;
+            position: relative;
+            z-index: 1;
+            letter-spacing: 1px;
+        }
+        .content {
+            padding: 50px 40px;
+            background: linear-gradient(180deg, #ffffff 0%, #fafafa 100%);
+        }
+        .welcome-title {
+            font-size: 32px;
+            color: #1a1a1a;
+            margin-bottom: 25px;
+            text-align: center;
+            font-weight: 300;
+            letter-spacing: 1px;
+        }
+        .welcome-message {
+            font-size: 18px;
+            color: #444;
+            margin-bottom: 35px;
+            text-align: center;
+            line-height: 1.8;
+            font-style: italic;
+        }
+        .exclusive-badge {
+            background: linear-gradient(135deg, #BFA054 0%, #D4B366 50%, #BFA054 100%);
+            color: #FFFFFF;
+            padding: 15px 30px;
+            border-radius: 50px;
+            text-align: center;
+            margin: 30px auto;
+            width: fit-content;
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            font-size: 14px;
+            box-shadow: 0 8px 16px rgba(191, 160, 84, 0.3);
+        }
+        .features {
+            background: linear-gradient(135deg, #333333 0%, #404040 100%);
+            border-radius: 12px;
+            padding: 40px;
+            margin: 40px 0;
+            color: #BFA054;
+            border: 2px solid #BFA054;
+            position: relative;
+        }
+        .features::before {
+            content: '';
+            position: absolute;
+            top: -1px;
+            left: -1px;
+            right: -1px;
+            bottom: -1px;
+            background: linear-gradient(45deg, #d4af37, transparent, #d4af37);
+            border-radius: 12px;
+            z-index: -1;
+        }
+        .features h3 {
+            color: #d4af37;
+            margin-bottom: 25px;
+            text-align: center;
+            font-size: 24px;
+            font-weight: 300;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+        }
+        .feature-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+        .feature-list li {
+            padding: 15px 0;
+            border-bottom: 1px solid rgba(212, 175, 55, 0.2);
+            color: #f0f0f0;
+            font-size: 16px;
+            letter-spacing: 0.5px;
+        }
+        .feature-list li:last-child {
+            border-bottom: none;
+        }
+        .feature-list li:before {
+            content: "◆";
+            color: #d4af37;
+            font-weight: bold;
+            margin-right: 15px;
+            font-size: 12px;
+        }
+        .cta-button {
+            display: inline-block;
+            background: linear-gradient(135deg, #d4af37 0%, #f4d03f 50%, #d4af37 100%);
+            color: #1a1a1a;
+            padding: 18px 40px;
+            text-decoration: none;
+            border-radius: 50px;
+            font-weight: bold;
+            text-align: center;
+            margin: 30px auto;
+            display: block;
+            width: fit-content;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            font-size: 14px;
+            box-shadow: 0 10px 20px rgba(212, 175, 55, 0.4);
+            transition: all 0.3s ease;
+        }
+        .signature {
+            background: linear-gradient(135deg, #f8f8f8 0%, #e8e8e8 100%);
+            padding: 30px 40px;
+            text-align: center;
+            border-top: 2px solid #d4af37;
+            font-style: italic;
+            color: #555;
+        }
+        .signature-name {
+            font-size: 18px;
+            font-weight: bold;
+            color: #1a1a1a;
+            margin-bottom: 5px;
+        }
+        .signature-title {
+            font-size: 14px;
+            color: #666;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        .footer {
+            background: linear-gradient(135deg, #1a1a1a 0%, #2c2c2c 100%);
+            color: #d4af37;
+            padding: 40px;
+            text-align: center;
+        }
+        .footer p {
+            margin: 8px 0;
+            font-size: 14px;
+            opacity: 0.8;
+        }
+        .footer a {
+            color: #d4af37;
+            text-decoration: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <div class="logo">Lunara</div>
+            <div class="tagline">Where Lunar Beauty Meets Excellence</div>
+        </div>
+
+        <div class="content">
+            <h2 class="welcome-title" th:text="'Welcome, ' + ${firstName}">Welcome, Distinguished Guest</h2>
+
+            <p class="welcome-message">
+                You have been granted exclusive access to Lunara, the premier destination for discerning individuals who demand nothing but the finest in beauty and wellness experiences.
+            </p>
+
+            <div class="exclusive-badge">
+                ✦ EXCLUSIVE MEMBER ✦
+            </div>
+
+            <p style="text-align: center; font-size: 16px; color: #666; margin: 30px 0;">
+                Your membership unlocks a world of carefully curated beauty professionals and luxury services, available only to our select clientele.
+            </p>
+
+            <div class="features">
+                <h3>Your Exclusive Privileges</h3>
+                <ul class="feature-list">
+                    <li>Priority access to the most sought-after beauty professionals</li>
+                    <li>Curated selection of premium services and treatments</li>
+                    <li>Personalized concierge-level appointment management</li>
+                    <li>Exclusive member-only events and early access to new services</li>
+                    <li>White-glove customer service with dedicated support</li>
+                </ul>
+            </div>
+
+            <p style="text-align: center; font-size: 16px; color: #444; margin: 35px 0; line-height: 1.8;">
+                Your journey into luxury begins now. Experience the difference that true exclusivity makes.
+            </p>
+
+            <a th:href="${loginUrl}" href="#" class="cta-button">Enter Your Private Portal</a>
+
+            <p style="text-align: center; font-size: 14px; color: #888; margin-top: 40px;">
+                For any inquiries, our dedicated concierge team is at your service.
+            </p>
+        </div>
+
+        <div class="signature">
+            <div class="signature-name">Dimitar Dimitrov</div>
+            <div class="signature-title">Chief Executive Officer, Lunara</div>
+        </div>
+
+        <div class="footer">
+            <p>Lunara - Redefining Beauty Excellence</p>
+            <p>
+                <a th:href="${baseUrl}" href="#">Private Portal</a> |
+                <a href="mailto:concierge@lunara.com">Concierge Service</a>
+            </p>
+            <p style="margin-top: 20px; font-size: 12px; opacity: 0.6;">
+                This exclusive invitation was sent to <span th:text="${email}">your-email@example.com</span>
+            </p>
+        </div>
+    </div>
+</body>
+</html>

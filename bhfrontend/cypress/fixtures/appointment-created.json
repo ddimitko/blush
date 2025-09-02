@@ -1,0 +1,46 @@
+{
+  "success": true,
+  "message": "Appointment created successfully",
+  "data": {
+    "id": "appointment_abc123xyz789",
+    "status": "CONFIRMED",
+    "appointmentDateTime": "2024-12-20T10:00:00",
+    "totalPrice": 50.00,
+    "currency": "EUR",
+    "shop": {
+      "id": "shop-1",
+      "name": "Lunara Beauty Salon",
+      "address": "123 Vitosha Boulevard",
+      "city": "Sofia",
+      "country": "Bulgaria",
+      "phone": "+359888123456"
+    },
+    "service": {
+      "id": "service-1",
+      "name": "Classic Haircut",
+      "duration": 60,
+      "price": 50.00
+    },
+    "employee": {
+      "id": "employee-1",
+      "user": {
+        "firstName": "Maria",
+        "lastName": "Petrova"
+      },
+      "specialties": "Hair Cutting, Hair Coloring, Styling"
+    },
+    "customer": {
+      "firstName": "John",
+      "lastName": "Doe",
+      "email": "john.doe@example.com",
+      "phone": "+359888123456"
+    },
+    "paymentRequired": true,
+    "paymentMethod": "CARD",
+    "confirmationCode": "CONF123456",
+    "calendarLink": "https://calendar.google.com/calendar/render?action=TEMPLATE&text=Haircut+at+Lunara+Beauty+Salon&dates=20241220T100000Z/20241220T110000Z&details=Appointment+with+Maria+Petrova&location=123+Vitosha+Boulevard,+Sofia,+Bulgaria",
+    "cancellationPolicy": "Appointments can be cancelled up to 24 hours in advance without penalty.",
+    "createdAt": "2024-12-19T15:30:00Z",
+    "updatedAt": "2024-12-19T15:30:00Z"
+  }
+}

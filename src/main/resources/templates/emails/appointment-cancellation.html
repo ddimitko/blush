@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reservation Modification - Lunara</title>
+    <style>
+        body {
+            font-family: 'Georgia', 'Times New Roman', serif;
+            line-height: 1.7;
+            color: #333;
+            margin: 0;
+            padding: 0;
+            background-color: #0a0a0a;
+        }
+        .container {
+            max-width: 650px;
+            margin: 0 auto;
+            background-color: #ffffff;
+            border: 1px solid #8b4513;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+        }
+        .header {
+            background: linear-gradient(135deg, #2c1810 0%, #4a2c1a 50%, #2c1810 100%);
+            color: #d4af37;
+            padding: 50px 40px;
+            text-align: center;
+            position: relative;
+        }
+        .header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="grain" width="100" height="100" patternUnits="userSpaceOnUse"><circle cx="25" cy="25" r="1" fill="%23d4af37" opacity="0.1"/></pattern></defs><rect width="100" height="100" fill="url(%23grain)"/></svg>') repeat;
+            opacity: 0.3;
+        }
+        .logo {
+            font-size: 36px;
+            font-weight: 300;
+            margin-bottom: 15px;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            position: relative;
+            z-index: 1;
+        }
+        .modification-badge {
+            background: linear-gradient(135deg, #8b4513 0%, #a0522d 50%, #8b4513 100%);
+            color: #ffffff;
+            padding: 12px 25px;
+            border-radius: 50px;
+            font-size: 14px;
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            position: relative;
+            z-index: 1;
+            display: inline-block;
+            margin-top: 10px;
+        }
+        .content {
+            padding: 50px 40px;
+            background: linear-gradient(180deg, #ffffff 0%, #fafafa 100%);
+        }
+        .greeting {
+            font-size: 24px;
+            margin-bottom: 30px;
+            color: #1a1a1a;
+            font-weight: 300;
+            text-align: center;
+            letter-spacing: 1px;
+        }
+        .exclusive-message {
+            text-align: center;
+            font-size: 16px;
+            color: #555;
+            margin-bottom: 40px;
+            font-style: italic;
+            line-height: 1.8;
+        }
+        .cancellation-notice {
+            background: linear-gradient(135deg, #f8f8f8 0%, #e8e8e8 100%);
+            border: 2px solid #8b4513;
+            padding: 30px;
+            border-radius: 12px;
+            margin: 30px 0;
+            text-align: center;
+            color: #444;
+        }
+        .cancellation-notice h3 {
+            margin-top: 0;
+            color: #8b4513;
+            font-size: 20px;
+            font-weight: 300;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+        }
+        .appointment-details {
+            background: linear-gradient(135deg, #2c1810 0%, #4a2c1a 100%);
+            border: 2px solid #8b4513;
+            padding: 40px;
+            border-radius: 12px;
+            margin: 40px 0;
+            color: #d4af37;
+            position: relative;
+        }
+        .appointment-details::before {
+            content: '';
+            position: absolute;
+            top: -1px;
+            left: -1px;
+            right: -1px;
+            bottom: -1px;
+            background: linear-gradient(45deg, #8b4513, transparent, #8b4513);
+            border-radius: 12px;
+            z-index: -1;
+        }
+        .appointment-details h3 {
+            margin-top: 0;
+            color: #d4af37;
+            font-size: 22px;
+            margin-bottom: 25px;
+            text-align: center;
+            font-weight: 300;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+        }
+        .detail-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 18px;
+            padding-bottom: 12px;
+            border-bottom: 1px solid rgba(139, 69, 19, 0.3);
+            align-items: center;
+        }
+        .detail-row:last-child {
+            border-bottom: none;
+            margin-bottom: 0;
+        }
+        .detail-label {
+            font-weight: 600;
+            color: #d4af37;
+            font-size: 16px;
+            letter-spacing: 0.5px;
+        }
+        .detail-value {
+            color: #f0f0f0;
+            font-size: 16px;
+            text-align: right;
+        }
+        .cta-button {
+            display: inline-block;
+            background: linear-gradient(135deg, #d4af37 0%, #f4d03f 50%, #d4af37 100%);
+            color: #1a1a1a;
+            padding: 18px 40px;
+            text-decoration: none;
+            border-radius: 50px;
+            font-weight: bold;
+            margin: 30px auto;
+            display: block;
+            width: fit-content;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            font-size: 14px;
+            box-shadow: 0 10px 20px rgba(212, 175, 55, 0.4);
+            transition: all 0.3s ease;
+        }
+        .refund-notice {
+            background: linear-gradient(135deg, #f8f8f8 0%, #e8e8e8 100%);
+            border: 2px solid #d4af37;
+            padding: 25px;
+            border-radius: 12px;
+            margin: 30px 0;
+            text-align: center;
+            color: #444;
+        }
+        .refund-notice strong {
+            color: #1a1a1a;
+            font-size: 16px;
+        }
+        .footer {
+            background: linear-gradient(135deg, #2c1810 0%, #4a2c1a 100%);
+            color: #d4af37;
+            padding: 40px;
+            text-align: center;
+        }
+        .footer p {
+            margin: 8px 0;
+            font-size: 14px;
+            opacity: 0.8;
+        }
+        .footer a {
+            color: #d4af37;
+            text-decoration: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <div class="logo">Lunara</div>
+            <div class="modification-badge">◆ Reservation Modified ◆</div>
+        </div>
+
+        <div class="content">
+            <h2 class="greeting" th:text="'Dear ' + ${customerName}">Dear Valued Guest</h2>
+
+            <p class="exclusive-message">
+                We regret to inform you that your exclusive appointment has been modified due to unforeseen circumstances.
+                As a valued member of our exclusive community, we are committed to providing you with alternative arrangements that maintain our premium standards.
+            </p>
+
+            <div class="cancellation-notice">
+                <h3>◆ Reservation Modification Notice ◆</h3>
+                <p>Your premium appointment reservation has been adjusted.</p>
+                <p th:if="${cancellationReason}" th:text="'Circumstances: ' + ${cancellationReason}">Circumstances: Scheduling optimization</p>
+            </div>
+
+            <p style="text-align: center; font-size: 16px; color: #666; margin: 30px 0;">
+                Below are the details of your original reservation for your records:
+            </p>
+
+            <div class="appointment-details">
+                <h3>◆ Original Reservation Details ◆</h3>
+
+                <div class="detail-row">
+                    <span class="detail-label">Exclusive Service:</span>
+                    <span class="detail-value" th:text="${serviceName}">Premium Treatment</span>
+                </div>
+
+                <div class="detail-row">
+                    <span class="detail-label">Master Specialist:</span>
+                    <span class="detail-value" th:text="${employeeName}">Expert Professional</span>
+                </div>
+
+                <div class="detail-row">
+                    <span class="detail-label">Premier Location:</span>
+                    <span class="detail-value" th:text="${shopName}">Luxury Studio</span>
+                </div>
+
+                <div class="detail-row">
+                    <span class="detail-label">Reserved Date:</span>
+                    <span class="detail-value" th:text="${appointmentDate}">March 15, 2024</span>
+                </div>
+
+                <div class="detail-row">
+                    <span class="detail-label">Private Session:</span>
+                    <span class="detail-value" th:text="${appointmentTime}">2:00 PM</span>
+                </div>
+
+                <div class="detail-row" th:if="${totalAmount}">
+                    <span class="detail-label">Investment:</span>
+                    <span class="detail-value" th:text="${formattedAmount}">$50.00</span>
+                </div>
+            </div>
+
+            <div class="refund-notice" th:if="${totalAmount}">
+                <strong>◆ Premium Refund Service ◆</strong><br>
+                Any payments made will be processed for full refund within 24-48 hours through our expedited premium service.
+                You will receive confirmation once the refund has been initiated.
+            </div>
+
+            <p style="text-align: center; font-size: 16px; color: #444; margin: 35px 0; line-height: 1.8;">
+                We sincerely apologize for this inconvenience and would be honored to assist you in securing a new appointment
+                that meets your distinguished preferences. Our concierge team is standing by to provide personalized assistance.
+            </p>
+
+            <a th:href="${baseUrl}" href="#" class="cta-button">Reserve New Appointment</a>
+        </div>
+
+        <div class="footer">
+            <p>Lunara - Committed to Your Excellence</p>
+            <p>
+                <a th:href="${baseUrl}" href="#">Private Portal</a> |
+                <a href="mailto:concierge@lunara.com">Concierge Service</a>
+            </p>
+            <p style="margin-top: 20px; font-size: 12px; opacity: 0.6;">
+                Reference Number: <span th:text="${appointmentId}">BH-12345</span>
+            </p>
+        </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,239 @@
+{
+  "app": {
+    "name": "Lunara",
+    "tagline": "Premium Beauty Platform",
+    "welcome": "Welcome to Lunara",
+    "description": "Discover and book beauty services at top-rated salons and spas"
+  },
+  "hero": {
+    "title": "Book Premium",
+    "subtitle": "Beauty Services",
+    "description": "Discover and book appointments at the finest beauty salons, spas, and wellness centers. Experience luxury that exceeds expectations."
+  },
+  "actions": {
+    "save": "Save",
+    "cancel": "Cancel",
+    "delete": "Delete",
+    "edit": "Edit",
+    "view": "View",
+    "create": "Create",
+    "update": "Update",
+    "search": "Search",
+    "filter": "Filter",
+    "reset": "Reset",
+    "submit": "Submit",
+    "confirm": "Confirm",
+    "back": "Back",
+    "next": "Next",
+    "previous": "Previous",
+    "close": "Close",
+    "open": "Open",
+    "select": "Select",
+    "book": "Book",
+    "login": "Login",
+    "logout": "Logout",
+    "register": "Register",
+    "clearFilters": "Clear Filters",
+    "bookAppointment": "Book Appointment",
+    "expandSearch": "Expand Search",
+    "browseShops": "Browse Salons",
+    "smartSearch": "Smart Search"
+  },
+  "labels": {
+    "name": "Name",
+    "email": "Email",
+    "phone": "Phone",
+    "address": "Address",
+    "city": "City",
+    "country": "Country",
+    "date": "Date",
+    "time": "Time",
+    "price": "Price",
+    "duration": "Duration",
+    "description": "Description",
+    "status": "Status",
+    "rating": "Rating",
+    "reviews": "Reviews",
+    "services": "Services",
+    "employees": "Employees",
+    "schedule": "Schedule",
+    "availability": "Availability"
+  },
+  "navigation": {
+    "home": "Home",
+    "shops": "Shops",
+    "services": "Services",
+    "appointments": "Appointments",
+    "profile": "Profile",
+    "dashboard": "Dashboard",
+    "settings": "Settings",
+    "help": "Help",
+    "about": "About",
+    "contact": "Contact",
+    "privacy": "Privacy Policy",
+    "terms": "Terms of Service"
+  },
+  "status": {
+    "active": "Active",
+    "inactive": "Inactive",
+    "pending": "Pending",
+    "confirmed": "Confirmed",
+    "cancelled": "Cancelled",
+    "completed": "Completed",
+    "available": "Available",
+    "unavailable": "Unavailable",
+    "open": "Open",
+    "closed": "Closed"
+  },
+  "time": {
+    "today": "Today",
+    "tomorrow": "Tomorrow",
+    "yesterday": "Yesterday",
+    "morning": "Morning",
+    "afternoon": "Afternoon",
+    "evening": "Evening",
+    "night": "Night",
+    "am": "AM",
+    "pm": "PM"
+  },
+  "duration": {
+    "minute": "minute",
+    "minutes": "minutes",
+    "hour": "hour",
+    "hours": "hours",
+    "and": "and"
+  },
+  "days": {
+    "monday": "Monday",
+    "tuesday": "Tuesday",
+    "wednesday": "Wednesday",
+    "thursday": "Thursday",
+    "friday": "Friday",
+    "saturday": "Saturday",
+    "sunday": "Sunday"
+  },
+  "months": {
+    "january": "January",
+    "february": "February",
+    "march": "March",
+    "april": "April",
+    "may": "May",
+    "june": "June",
+    "july": "July",
+    "august": "August",
+    "september": "September",
+    "october": "October",
+    "november": "November",
+    "december": "December"
+  },
+  "currency": {
+    "symbol": "€",
+    "code": "EUR"
+  },
+  "messages": {
+    "loading": "Loading...",
+    "noData": "No data available",
+    "noResults": "No results found",
+    "tryAgain": "Please try again",
+    "comingSoon": "Coming soon",
+    "underMaintenance": "Under maintenance"
+  },
+  "pagination": {
+    "first": "First",
+    "last": "Last",
+    "next": "Next",
+    "previous": "Previous",
+    "page": "Page",
+    "of": "of",
+    "showing": "Showing {{from}} to {{to}} of {{total}} entries"
+  },
+  "emptyState": {
+    "search": {
+      "title": "No results found",
+      "description": "Try adjusting your search criteria or browse our featured salons."
+    },
+    "appointments": {
+      "title": "No appointments yet",
+      "description": "Book your first appointment to get started with premium beauty services."
+    },
+    "shops": {
+      "title": "No salons in this area",
+      "description": "Try expanding your search radius or explore other locations."
+    },
+    "favorites": {
+      "title": "No favorites saved",
+      "description": "Save your favorite salons and services for quick access."
+    },
+    "notifications": {
+      "title": "No notifications",
+      "description": "You're all caught up! New notifications will appear here."
+    },
+    "reviews": {
+      "title": "No reviews yet",
+      "description": "Be the first to share your experience with this salon."
+    },
+    "employees": {
+      "title": "No employees added",
+      "description": "Add team members to start accepting appointments."
+    },
+    "services": {
+      "title": "No services available",
+      "description": "Add services to showcase what you offer to customers."
+    },
+    "general": {
+      "title": "No data available",
+      "description": "There's nothing to show here at the moment."
+    }
+  },
+  "upload": {
+    "selectFile": "Select file",
+    "dragDrop": "Drag and drop files here",
+    "maxSize": "Maximum file size: {{size}}",
+    "allowedTypes": "Allowed file types: {{types}}",
+    "uploading": "Uploading...",
+    "success": "File uploaded successfully",
+    "error": "Upload failed"
+  },
+  "search": {
+    "placeholder": "Search...",
+    "noResults": "No results found for \"{{query}}\"",
+    "resultsCount": "{{count}} results found"
+  },
+  "filters": {
+    "all": "All",
+    "apply": "Apply Filters",
+    "clear": "Clear Filters",
+    "location": "Location",
+    "priceRange": "Price Range",
+    "ratingMin": "Minimum Rating",
+    "services": "Services",
+    "availability": "Availability"
+  },
+  "notifications": {
+    "new": "New notification",
+    "markRead": "Mark as read",
+    "markAllRead": "Mark all as read",
+    "noNew": "No new notifications",
+    "settings": "Notification Settings"
+  },
+  "footer": {
+    "copyright": "© {{year}} Lunara. All rights reserved.",
+    "privacy": "Privacy Policy",
+    "terms": "Terms of Service",
+    "contact": "Contact Us",
+    "about": "About Us",
+    "help": "Help Center",
+    "socialFollow": "Follow us on social media"
+  },
+  "roles": {
+    "user": "Customer",
+    "employee": "Employee",
+    "owner": "Shop Owner",
+    "admin": "Administrator"
+  },
+  "language": {
+    "current": "Current Language",
+    "select": "Select Language",
+    "change": "Change Language"
+  }
+}

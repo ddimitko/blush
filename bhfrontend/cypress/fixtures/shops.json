@@ -1,0 +1,82 @@
+{
+  "content": [
+    {
+      "id": "shop-1",
+      "name": "Lunara Beauty Salon",
+      "description": "Premium beauty services in the heart of Sofia",
+      "address": "123 Vitosha Boulevard",
+      "city": "Sofia",
+      "country": "Bulgaria",
+      "phone": "+359888123456",
+      "email": "info@lunarabeauty.com",
+      "acceptsCardPayments": true,
+      "featured": true,
+      "rating": 4.8,
+      "reviewCount": 127,
+      "imageUrl": "/images/shops/lunara-salon.jpg",
+      "operatingHours": {
+        "monday": { "open": "09:00", "close": "18:00" },
+        "tuesday": { "open": "09:00", "close": "18:00" },
+        "wednesday": { "open": "09:00", "close": "18:00" },
+        "thursday": { "open": "09:00", "close": "18:00" },
+        "friday": { "open": "09:00", "close": "19:00" },
+        "saturday": { "open": "10:00", "close": "17:00" },
+        "sunday": { "closed": true }
+      }
+    },
+    {
+      "id": "shop-2",
+      "name": "Elite Hair Studio",
+      "description": "Modern hair styling and coloring specialists",
+      "address": "456 Graf Ignatiev Street",
+      "city": "Sofia",
+      "country": "Bulgaria",
+      "phone": "+359888654321",
+      "email": "contact@elitehair.bg",
+      "acceptsCardPayments": true,
+      "featured": false,
+      "rating": 4.6,
+      "reviewCount": 89,
+      "imageUrl": "/images/shops/elite-hair.jpg",
+      "operatingHours": {
+        "monday": { "open": "10:00", "close": "19:00" },
+        "tuesday": { "open": "10:00", "close": "19:00" },
+        "wednesday": { "open": "10:00", "close": "19:00" },
+        "thursday": { "open": "10:00", "close": "19:00" },
+        "friday": { "open": "10:00", "close": "20:00" },
+        "saturday": { "open": "09:00", "close": "18:00" },
+        "sunday": { "closed": true }
+      }
+    },
+    {
+      "id": "shop-3",
+      "name": "Glamour Nails & Spa",
+      "description": "Luxury nail care and spa treatments",
+      "address": "789 Tsar Osvoboditel Boulevard",
+      "city": "Sofia",
+      "country": "Bulgaria",
+      "phone": "+359888987654",
+      "email": "hello@glamournails.com",
+      "acceptsCardPayments": true,
+      "featured": true,
+      "rating": 4.9,
+      "reviewCount": 203,
+      "imageUrl": "/images/shops/glamour-nails.jpg",
+      "operatingHours": {
+        "monday": { "open": "09:00", "close": "18:00" },
+        "tuesday": { "open": "09:00", "close": "18:00" },
+        "wednesday": { "open": "09:00", "close": "18:00" },
+        "thursday": { "open": "09:00", "close": "18:00" },
+        "friday": { "open": "09:00", "close": "19:00" },
+        "saturday": { "open": "10:00", "close": "17:00" },
+        "sunday": { "open": "11:00", "close": "16:00" }
+      }
+    }
+  ],
+  "totalElements": 3,
+  "totalPages": 1,
+  "size": 10,
+  "number": 0,
+  "first": true,
+  "last": true
+}

@@ -1,0 +1,195 @@
+{
+  "title": "Beauty Shops",
+  "findShops": "Find Beauty Shops",
+  "shopDetails": "Shop Details",
+  "createShop": "Create Shop",
+  "editShop": "Edit Shop",
+  "myShops": "My Shops",
+  "shopSettings": "Shop Settings",
+  "shopProfile": "Shop Profile",
+  "basicInfo": {
+    "title": "Basic Information",
+    "name": "Shop Name",
+    "description": "Description",
+    "category": "Category",
+    "website": "Website",
+    "email": "Email",
+    "phone": "Phone Number"
+  },
+  "location": {
+    "title": "Location",
+    "address": "Address",
+    "city": "City",
+    "state": "State/Province",
+    "country": "Country",
+    "postalCode": "Postal Code",
+    "coordinates": "Coordinates"
+  },
+  "hours": {
+    "title": "Business Hours",
+    "monday": "Monday",
+    "tuesday": "Tuesday",
+    "wednesday": "Wednesday",
+    "thursday": "Thursday",
+    "friday": "Friday",
+    "saturday": "Saturday",
+    "sunday": "Sunday",
+    "closed": "Closed",
+    "open24h": "Open 24 hours",
+    "from": "From",
+    "to": "To"
+  },
+  "services": {
+    "title": "Services",
+    "addService": "Add Service",
+    "editService": "Edit Service",
+    "serviceName": "Service Name",
+    "serviceDescription": "Service Description",
+    "price": "Price",
+    "duration": "Duration",
+    "category": "Category",
+    "available": "Available",
+    "unavailable": "Unavailable"
+  },
+  "employees": {
+    "title": "Employees",
+    "addEmployee": "Add Employee",
+    "inviteEmployee": "Invite Employee",
+    "employeeName": "Employee Name",
+    "role": "Role",
+    "specialties": "Specialties",
+    "bio": "Bio",
+    "experience": "Years of Experience",
+    "hourlyRate": "Hourly Rate",
+    "commissionRate": "Commission Rate"
+  },
+  "gallery": {
+    "title": "Gallery",
+    "addPhoto": "Add Photo",
+    "uploadPhotos": "Upload Photos",
+    "mainPhoto": "Main Photo",
+    "additionalPhotos": "Additional Photos"
+  },
+  "reviews": {
+    "title": "Reviews",
+    "averageRating": "Average Rating",
+    "totalReviews": "Total Reviews",
+    "writeReview": "Write a Review",
+    "readReviews": "Read Reviews",
+    "noReviews": "No reviews yet"
+  },
+  "amenities": {
+    "title": "Amenities",
+    "parking": "Parking Available",
+    "wifi": "Free WiFi",
+    "airConditioning": "Air Conditioning",
+    "wheelchairAccessible": "Wheelchair Accessible",
+    "creditCards": "Credit Cards Accepted",
+    "appointments": "Appointments Required",
+    "walkIns": "Walk-ins Welcome"
+  },
+  "subscription": {
+    "title": "Subscription",
+    "plan": "Current Plan",
+    "status": "Status",
+    "renewalDate": "Renewal Date",
+    "upgrade": "Upgrade Plan",
+    "manage": "Manage Subscription"
+  },
+  "analytics": {
+    "title": "Analytics",
+    "overview": "Overview",
+    "appointments": "Appointments",
+    "revenue": "Revenue",
+    "customers": "Customers",
+    "performance": "Performance"
+  },
+  "settings": {
+    "title": "Settings",
+    "general": "General",
+    "notifications": "Notifications",
+    "payments": "Payments",
+    "integrations": "Integrations",
+    "advanced": "Advanced"
+  },
+  "status": {
+    "active": "Active",
+    "inactive": "Inactive",
+    "pending": "Pending Approval",
+    "suspended": "Suspended",
+    "draft": "Draft"
+  },
+  "categories": {
+    "hairSalon": "Hair Salon",
+    "nailSalon": "Nail Salon",
+    "spa": "Spa",
+    "barbershop": "Barbershop",
+    "beautyCenter": "Beauty Center",
+    "massage": "Massage Therapy",
+    "skincare": "Skincare",
+    "makeup": "Makeup",
+    "eyebrows": "Eyebrow Services",
+    "tattoo": "Tattoo & Piercing"
+  },
+  "search": {
+    "placeholder": "Search shops by name, location, or service...",
+    "filters": "Filters",
+    "sortBy": "Sort by",
+    "distance": "Distance",
+    "rating": "Rating",
+    "price": "Price",
+    "availability": "Availability",
+    "nearMe": "Near Me",
+    "openNow": "Open Now"
+  },
+  "booking": {
+    "bookNow": "Book Now",
+    "selectService": "Select Service",
+    "viewServices": "View All Services",
+    "checkAvailability": "Check Availability",
+    "fullyBooked": "Fully Booked",
+    "availableSlots": "Available Slots"
+  },
+  "contact": {
+    "title": "Contact Information",
+    "getDirections": "Get Directions",
+    "callShop": "Call Shop",
+    "emailShop": "Email Shop",
+    "visitWebsite": "Visit Website"
+  },
+  "social": {
+    "title": "Social Media",
+    "facebook": "Facebook",
+    "instagram": "Instagram",
+    "twitter": "Twitter",
+    "youtube": "YouTube",
+    "tiktok": "TikTok"
+  },
+  "actions": {
+    "save": "Save Shop",
+    "publish": "Publish Shop",
+    "unpublish": "Unpublish Shop",
+    "delete": "Delete Shop",
+    "duplicate": "Duplicate Shop",
+    "export": "Export Data",
+    "import": "Import Data"
+  },
+  "messages": {
+    "created": "Shop created successfully",
+    "updated": "Shop updated successfully",
+    "deleted": "Shop deleted successfully",
+    "published": "Shop published successfully",
+    "unpublished": "Shop unpublished successfully",
+    "noShopsFound": "No shops found",
+    "loadingShops": "Loading shops...",
+    "errorLoading": "Error loading shops"
+  },
+  "validation": {
+    "nameRequired": "Shop name is required",
+    "descriptionRequired": "Description is required",
+    "addressRequired": "Address is required",
+    "phoneRequired": "Phone number is required",
+    "emailRequired": "Email is required",
+    "categoryRequired": "Category is required"
+  }
+}
