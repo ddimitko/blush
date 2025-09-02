@@ -1,0 +1,181 @@
+name: Webapp Production Deployment
+
+on:
+  push:
+    branches: [ main ]
+    paths:
+      - 'src/**'
+      - 'bhfrontend/**'
+      - 'build.gradle'
+      - 'package*.json'
+      - 'Dockerfile'
+      - 'docker-compose.prod.yml'
+  workflow_dispatch:
+    inputs:
+      environment:
+        description: 'Deployment environment'
+        required: true
+        default: 'production'
+        type: choice
+        options:
+        - production
+        - staging
+
+env:
+  REGISTRY: ghcr.io
+  IMAGE_NAME: ${{ github.repository }}/lunara-webapp
+
+jobs:
+  deploy:
+    name: Deploy to Production
+    runs-on: ubuntu-latest
+    environment: 
+      name: ${{ github.event.inputs.environment || 'production' }}
+      url: ${{ vars.APP_URL }}
+    
+    permissions:
+      contents: read
+      packages: write
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Set up Docker Buildx
+      uses: docker/setup-buildx-action@v3
+
+    - name: Log in to Container Registry
+      uses: docker/login-action@v3
+      with:
+        registry: ${{ env.REGISTRY }}
+        username: ${{ github.actor }}
+        password: ${{ secrets.GITHUB_TOKEN }}
+
+    - name: Extract metadata
+      id: meta
+      uses: docker/metadata-action@v5
+      with:
+        images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
+        tags: |
+          type=ref,event=branch
+          type=sha,prefix={{branch}}-
+          type=raw,value=latest,enable={{is_default_branch}}
+
+    - name: Set up Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: '18'
+        cache: 'npm'
+        cache-dependency-path: bhfrontend/package-lock.json
+
+    - name: Build frontend
+      working-directory: ./bhfrontend
+      run: |
+        npm ci
+        npm run build
+      env:
+        CI: false
+        GENERATE_SOURCEMAP: false
+        REACT_APP_API_URL: ${{ vars.API_URL }}
+        REACT_APP_STRIPE_PUBLISHABLE_KEY: ${{ vars.STRIPE_PUBLISHABLE_KEY }}
+        REACT_APP_GOOGLE_MAPS_API_KEY: ${{ vars.GOOGLE_MAPS_API_KEY }}
+
+    - name: Build and push Docker image
+      uses: docker/build-push-action@v5
+      with:
+        context: .
+        platforms: linux/amd64,linux/arm64
+        push: true
+        tags: ${{ steps.meta.outputs.tags }}
+        labels: ${{ steps.meta.outputs.labels }}
+        cache-from: type=gha
+        cache-to: type=gha,mode=max
+
+    - name: Deploy to server
+      uses: appleboy/ssh-action@v1.0.3
+      with:
+        host: ${{ secrets.DEPLOY_HOST }}
+        username: ${{ secrets.DEPLOY_USER }}
+        key: ${{ secrets.DEPLOY_SSH_KEY }}
+        port: ${{ secrets.DEPLOY_PORT || 22 }}
+        script: |
+          # Navigate to deployment directory
+          cd ${{ vars.DEPLOY_PATH || '/opt/lunara' }}
+          
+          # Pull latest images
+          docker login ${{ env.REGISTRY }} -u ${{ github.actor }} -p ${{ secrets.GITHUB_TOKEN }}
+          docker pull ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:latest
+          
+          # Update environment variables
+          cat > .env.production << EOF
+          # Database Configuration
+          SPRING_DATASOURCE_URL=${{ secrets.DATABASE_URL }}
+          SPRING_DATASOURCE_USERNAME=${{ secrets.DATABASE_USERNAME }}
+          SPRING_DATASOURCE_PASSWORD=${{ secrets.DATABASE_PASSWORD }}
+          
+          # Redis Configuration
+          SPRING_REDIS_HOST=${{ secrets.REDIS_HOST }}
+          SPRING_REDIS_PORT=${{ secrets.REDIS_PORT || 6379 }}
+          SPRING_REDIS_PASSWORD=${{ secrets.REDIS_PASSWORD }}
+          
+          # Stripe Configuration
+          STRIPE_SECRET_KEY=${{ secrets.STRIPE_SECRET_KEY }}
+          STRIPE_WEBHOOK_SECRET=${{ secrets.STRIPE_WEBHOOK_SECRET }}
+          
+          # JWT Configuration
+          JWT_SECRET=${{ secrets.JWT_SECRET }}
+          JWT_EXPIRATION=${{ vars.JWT_EXPIRATION || 86400000 }}
+          
+          # Email Configuration
+          SPRING_MAIL_HOST=${{ secrets.MAIL_HOST }}
+          SPRING_MAIL_PORT=${{ secrets.MAIL_PORT || 587 }}
+          SPRING_MAIL_USERNAME=${{ secrets.MAIL_USERNAME }}
+          SPRING_MAIL_PASSWORD=${{ secrets.MAIL_PASSWORD }}
+          
+          # RabbitMQ Configuration
+          SPRING_RABBITMQ_HOST=${{ secrets.RABBITMQ_HOST }}
+          SPRING_RABBITMQ_PORT=${{ secrets.RABBITMQ_PORT || 5672 }}
+          SPRING_RABBITMQ_USERNAME=${{ secrets.RABBITMQ_USERNAME }}
+          SPRING_RABBITMQ_PASSWORD=${{ secrets.RABBITMQ_PASSWORD }}
+          
+          # Application Configuration
+          SERVER_PORT=${{ vars.SERVER_PORT || 8080 }}
+          SPRING_PROFILES_ACTIVE=production
+          LOGGING_LEVEL_ROOT=${{ vars.LOG_LEVEL || 'INFO' }}
+          
+          # Security
+          CORS_ALLOWED_ORIGINS=${{ vars.CORS_ALLOWED_ORIGINS }}
+          EOF
+          
+          # Deploy with docker-compose
+          docker-compose -f docker-compose.prod.yml --env-file .env.production down
+          docker-compose -f docker-compose.prod.yml --env-file .env.production up -d
+          
+          # Health check
+          sleep 30
+          curl -f ${{ vars.APP_URL }}/actuator/health || exit 1
+          
+          # Cleanup old images
+          docker image prune -f
+
+    - name: Run database migrations
+      uses: appleboy/ssh-action@v1.0.3
+      with:
+        host: ${{ secrets.DEPLOY_HOST }}
+        username: ${{ secrets.DEPLOY_USER }}
+        key: ${{ secrets.DEPLOY_SSH_KEY }}
+        port: ${{ secrets.DEPLOY_PORT || 22 }}
+        script: |
+          cd ${{ vars.DEPLOY_PATH || '/opt/lunara' }}
+          docker-compose -f docker-compose.prod.yml exec -T app java -jar app.jar --spring.profiles.active=production --spring.jpa.hibernate.ddl-auto=update
+
+    - name: Notify deployment status
+      if: always()
+      uses: 8398a7/action-slack@v3
+      with:
+        status: ${{ job.status }}
+        channel: '#deployments'
+        webhook_url: ${{ secrets.SLACK_WEBHOOK }}
+        fields: repo,message,commit,author,action,eventName,ref,workflow
+      env:
+        SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK }}
